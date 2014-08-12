@@ -61,7 +61,10 @@ install_gperftools:
 	cd gperftools && ./configure --prefix $(TARGET) --enable-frame-pointers && make all CXXFLAGS="-g -O3" && make install
 
 install_zookeeper:
-	cd zookeeper && (ulimit -v unlimited; JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/ ant compile) && cd src/c && autoreconf -if && ./configure --prefix $(TARGET) && make -j$(JOBS) -k install && make doxygen-doc && rm -f ~/local/bin/zookeeper && cd ../.. && ln -s `pwd` ~/local/bin/zookeeper
+	cd zookeeper && (ulimit -v unlimited; JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/ ant) && cd src/c && autoreconf -if && ./configure --prefix $(TARGET) && make -j$(JOBS) -k install && make doxygen-doc && rm -f ~/local/bin/zookeeper && cd ../.. && ln -s `pwd` ~/local/bin/zookeeper
+
+install_exhibitor:
+	cd exhibitor && cp exhibitor-standalone/src/main/resources/buildscripts/standalone/gradle/build.gradle build.gradle && ./gradlew build
 
 install_redis:
 	cd redis && make -j$(JOBS) -k PREFIX=$(TARGET) install
